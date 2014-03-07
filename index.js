@@ -1,35 +1,48 @@
 'use strict';
+
 var gutil = require('gulp-util');
 var through = require('through2');
 var prettyBytes = require('pretty-bytes');
 
-module.exports = function (options) {
-	options = options || {};
+module.exports = function (taskNote, options) {
+  options = options || {};
+  var count = 0;
+  var totalSize = 0;
+  var task = taskNote ? decorate('blue', taskNote) + ' ' : '';
 
-	var totalSize = 0;
+  function decorate (color, text) {
+    return text ? '[' + gutil.colors[color](text) + ']' : '';
+  }
 
-	return through.obj(function (file, enc, cb) {
-		if (file.isNull()) {
-			this.push(file);
-			return cb();
-		}
+  return through.obj(function (file, enc, cb) {
+    var items = [];
 
-		if (file.isStream()) {
-			this.emit('error', new gutil.PluginError('gulp-size', 'Streaming not supported'));
-			return cb();
-		}
+    if (file.isNull()) {
+      this.push(file);
+      return cb();
+    }
 
-		var size = file.contents.length;
-		totalSize += size;
+    if (file.isStream()) {
+      this.emit('error', new gutil.PluginError('size', 'Streaming not supported'));
+      return cb();
+    }
 
-		if (options.showFiles === true) {
-			gutil.log('gulp-size: ' + gutil.colors.blue(file.relative) + ' ' + prettyBytes(size));
-		}
+    var size = file.contents.length;
+    totalSize += size;
+    count++;
 
-		this.push(file);
-		cb();
-	}, function (cb) {
-		gutil.log('gulp-size: ' + gutil.colors.green('total ') + prettyBytes(totalSize));
-		cb();
-	});
+    if (options.showFiles === true) {
+      gutil.log(task + decorate('yellow', count) + ' ' +
+        gutil.colors.blue(file.relative) +
+        (file.isNull() ? decorate('magenta', 'EMPTY') : ' size: ' + prettyBytes(size));
+    }
+
+    this.push(file);
+    cb();
+  }, function (cb) {
+    var task = taskNote ? decorate('blue', taskNote) + ' ' : '';
+    gutil.log(task + 'Found ' + decorate('yellow', count) +
+      ' files. ' + gutil.colors.green('Total size: ') + prettyBytes(totalSize));
+    cb();
+  });
 };
