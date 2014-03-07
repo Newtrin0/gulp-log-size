@@ -1,14 +1,26 @@
 {
-  "name": "gulp-size",
-  "version": "0.1.3",
-  "description": "Display the size of your project",
+  "name": "gulp-log-size",
+  "version": "0.1.0",
+  "description": "Display the size of files and project",
   "license": "MIT",
-  "repository": "sindresorhus/gulp-size",
+  "repository": "Newtrin0/gulp-log-size",
   "author": {
+      "name": "Edmundas Mišeikis",
+      "email": "Edmundas.Miseikis@gmail.com",
+      "url": "https://github.com/Newtrin0"
+  },
+  "contributors": [
+    {
+      "name": "Adam Ayres",
+      "email": "magicaj@gmail.com",
+      "url": "https://github.com/adamayres"
+    },
+    {
     "name": "Sindre Sorhus",
     "email": "sindresorhus@gmail.com",
     "url": "http://sindresorhus.com"
-  },
+    }
+  ],
   "engines": {
     "node": ">=0.10.0"
   },
