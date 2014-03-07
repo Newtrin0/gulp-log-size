@@ -34,7 +34,7 @@ module.exports = function (taskNote, options) {
     if (options.showFiles === true) {
       gutil.log(task + decorate('yellow', count) + ' ' +
         gutil.colors.blue(file.relative) +
-        (file.isNull() ? decorate('magenta', 'EMPTY') : ' size: ' + prettyBytes(size));
+        (file.isNull() ? decorate('magenta', 'EMPTY') : ' size: ' + prettyBytes(size)));
     }
 
     this.push(file);
